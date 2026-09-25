@@ -1,0 +1,28 @@
+### Get all players
+GET http://localhost:3000/players
+
+### Get player by id (Messi)
+GET http://localhost:3000/players/6ab5cdfdf6897a7d5d1d3708
+
+### Player not found (valid format, doesn't exist)
+GET http://localhost:3000/players/6ab5cdfdf6897a7d5d1d3799
+
+### Invalid id format
+GET http://localhost:3000/players/123
+
+### Create player
+POST http://localhost:3000/players
+Content-Type: application/json
+
+{
+  "firstName": "Lautaro",
+  "lastName": "Martínez",
+  "position": "Forward",
+  "jerseyNumber": 22,
+  "birthDate": "1997-08-22",
+  "birthPlace": "Bahía Blanca, Buenos Aires",
+  "currentClub": "Inter Milan",
+  "internationalCaps": 70,
+  "internationalGoals": 35,
+  "worldCupWinner": true
+}
