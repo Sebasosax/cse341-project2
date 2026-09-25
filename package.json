@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "swagger": "node swagger.js",
-    "seed": "node db/seed.js"
+    "seed:clubs": "node db/seed.js clubs"
   },
   "keywords": [],
   "author": "Juan Diego Sebastian Sosa",

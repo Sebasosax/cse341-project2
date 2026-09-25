@@ -1,13 +1,13 @@
 @local = http://localhost:3000
 @render = https://cse341-project2-2x89.onrender.com
 
-### ===== LOCAL =====
+### ===== PLAYERS (LOCAL) =====
 
 ### Get all players
 GET {{local}}/players
 
 ### Get player by id (Messi)
-   GET {{local}}/players/6ab5cdfdf6897a7d5d1d3707
+GET {{local}}/players/6ab5cdfdf6897a7d5d1d3708
 
 ### Player not found (valid format, doesn't exist)
 GET {{local}}/players/6ab5cdfdf6897a7d5d1d3799
@@ -32,15 +32,7 @@ Content-Type: application/json
   "worldCupWinner": true
 }
 
-### ===== RENDER =====
-
-### Get all players
-GET {{render}}/players
-
-### Get player by id (Messi)
-GET {{render}}/players/6ab5cdfdf6897a7d5d1d3708
-
-### Update player (Di María - current club example)
+### Update player (Di María)
 PUT {{local}}/players/6ab5cdfdf6897a7d5d1d3707
 Content-Type: application/json
 
@@ -57,8 +49,8 @@ Content-Type: application/json
   "worldCupWinner": true
 }
 
-### Delete player (replace with the id of Lautaro after creating him)
-DELETE {{local}}/players/
+### Delete player (replace with the id returned by the POST)
+DELETE {{local}}/players/REPLACE_WITH_ID
 
 ### Validation error - empty body
 POST {{local}}/players
@@ -82,3 +74,60 @@ Content-Type: application/json
   "internationalGoals": "many",
   "worldCupWinner": "yes"
 }
+
+### ===== CLUBS (LOCAL) =====
+
+### Get all clubs
+GET {{local}}/clubs
+
+### Get club by id (Rosario Central)
+GET {{local}}/clubs/6ab5d54d432372731c1bf9c1
+
+### Club not found
+GET {{local}}/clubs/6ab5d54d432372731c1bf999
+
+### Create club
+POST {{local}}/clubs
+Content-Type: application/json
+
+{
+  "name": "Inter Milan",
+  "city": "Milan",
+  "country": "Italy",
+  "league": "Serie A",
+  "stadium": "San Siro",
+  "founded": 1908
+}
+
+### Update club (Rosario Central)
+PUT {{local}}/clubs/6ab5d54d432372731c1bf9c1
+Content-Type: application/json
+
+{
+  "name": "Rosario Central",
+  "city": "Rosario",
+  "country": "Argentina",
+  "league": "Liga Profesional de Fútbol",
+  "stadium": "Gigante de Arroyito",
+  "founded": 1889
+}
+
+### Delete club (replace with the id returned by the POST)
+DELETE {{local}}/clubs/REPLACE_WITH_ID
+
+### Club validation error
+POST {{local}}/clubs
+Content-Type: application/json
+
+{
+  "name": "X",
+  "founded": 3000
+}
+
+### ===== RENDER =====
+
+### Get all players
+GET {{render}}/players
+
+### Get all clubs
+GET {{render}}/clubs

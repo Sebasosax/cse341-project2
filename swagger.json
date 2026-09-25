@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Argentine Football API",
-    "description": "REST API for managing Argentine football players and clubs. CSE 341 Project 2.",
+    "description": "REST API for managing Argentine football players (2022 World Cup champions) and their clubs. CSE 341 Project 2.",
     "version": "1.0.0"
   },
   "host": "localhost:3000",
@@ -11,6 +11,10 @@
     {
       "name": "Players",
       "description": "Argentine national team players"
+    },
+    {
+      "name": "Clubs",
+      "description": "Clubs where the players currently play"
     }
   ],
   "schemes": [
@@ -115,6 +119,234 @@
             "description": "Server error"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Players"
+        ],
+        "summary": "Update an existing player",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the player"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated player data (all fields)",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Player"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player updated"
+          },
+          "400": {
+            "description": "Invalid id format or validation error"
+          },
+          "404": {
+            "description": "Player not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Players"
+        ],
+        "summary": "Delete a player",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the player"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player deleted"
+          },
+          "400": {
+            "description": "Invalid id format"
+          },
+          "404": {
+            "description": "Player not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/clubs/": {
+      "get": {
+        "tags": [
+          "Clubs"
+        ],
+        "summary": "Get all clubs",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "List of clubs",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Club"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Clubs"
+        ],
+        "summary": "Create a new club",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Club data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Club"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Club created"
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/clubs/{id}": {
+      "get": {
+        "tags": [
+          "Clubs"
+        ],
+        "summary": "Get a club by id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the club"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Club found",
+            "schema": {
+              "$ref": "#/definitions/Club"
+            }
+          },
+          "400": {
+            "description": "Invalid id format"
+          },
+          "404": {
+            "description": "Club not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Clubs"
+        ],
+        "summary": "Update an existing club",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the club"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Updated club data (all fields)",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Club"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Club updated"
+          },
+          "400": {
+            "description": "Invalid id format or validation error"
+          },
+          "404": {
+            "description": "Club not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Clubs"
+        ],
+        "summary": "Delete a club",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the club"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Club deleted"
+          },
+          "400": {
+            "description": "Invalid id format"
+          },
+          "404": {
+            "description": "Club not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
       }
     }
   },
@@ -161,6 +393,35 @@
         "worldCupWinner": {
           "type": "boolean",
           "example": true
+        }
+      }
+    },
+    "Club": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Rosario Central"
+        },
+        "city": {
+          "type": "string",
+          "example": "Rosario"
+        },
+        "country": {
+          "type": "string",
+          "example": "Argentina"
+        },
+        "league": {
+          "type": "string",
+          "example": "Liga Profesional"
+        },
+        "stadium": {
+          "type": "string",
+          "example": "Gigante de Arroyito"
+        },
+        "founded": {
+          "type": "number",
+          "example": 1889
         }
       }
     }

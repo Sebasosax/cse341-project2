@@ -1,4 +1,5 @@
-const { body, param, validationResult } = require('express-validator');
+const { body, param } = require('express-validator');
+const { validate } = require('./validate');
 
 const POSITIONS = ['Goalkeeper', 'Defender', 'Midfielder', 'Winger', 'Forward'];
 
@@ -64,20 +65,5 @@ const playerRules = () => [
 const idRules = () => [
   param('id').isMongoId().withMessage('Invalid player id format')
 ];
-
-// Middleware that returns 400 with all errors if validation fails
-const validate = (req, res, next) => {
-  const errors = validationResult(req);
-  if (errors.isEmpty()) {
-    return next();
-  }
-  return res.status(400).json({
-    message: 'Validation failed',
-    errors: errors.array().map((err) => ({
-      field: err.path,
-      message: err.msg
-    }))
-  });
-};
 
 module.exports = { playerRules, idRules, validate };
