@@ -58,4 +58,27 @@ Content-Type: application/json
 }
 
 ### Delete player (replace with the id of Lautaro after creating him)
-DELETE {{local}}/players/6ab5d30914065ebb87538d68
+DELETE {{local}}/players/
+
+### Validation error - empty body
+POST {{local}}/players
+Content-Type: application/json
+
+{}
+
+### Validation error - bad values
+POST {{local}}/players
+Content-Type: application/json
+
+{
+  "firstName": "L",
+  "lastName": "Messi",
+  "position": "Striker",
+  "jerseyNumber": 150,
+  "birthDate": "2090-01-01",
+  "birthPlace": "Rosario, Santa Fe",
+  "currentClub": "Inter Miami CF",
+  "internationalCaps": -5,
+  "internationalGoals": "many",
+  "worldCupWinner": "yes"
+}
