@@ -1,17 +1,22 @@
+@local = http://localhost:3000
+@render = https://cse341-project2-2x89.onrender.com
+
+### ===== LOCAL =====
+
 ### Get all players
-GET http://localhost:3000/players
+GET {{local}}/players
 
 ### Get player by id (Messi)
-GET http://localhost:3000/players/6ab5cdfdf6897a7d5d1d3708
+GET {{local}}/players/6ab5cdfdf6897a7d5d1d3708
 
 ### Player not found (valid format, doesn't exist)
-GET http://localhost:3000/players/6ab5cdfdf6897a7d5d1d3799
+GET {{local}}/players/6ab5cdfdf6897a7d5d1d3799
 
 ### Invalid id format
-GET http://localhost:3000/players/123
+GET {{local}}/players/123
 
 ### Create player
-POST http://localhost:3000/players
+POST {{local}}/players
 Content-Type: application/json
 
 {
@@ -26,3 +31,11 @@ Content-Type: application/json
   "internationalGoals": 35,
   "worldCupWinner": true
 }
+
+### ===== RENDER =====
+
+### Get all players
+GET {{render}}/players
+
+### Get player by id (Messi)
+GET {{render}}/players/6ab5cdfdf6897a7d5d1d3708
