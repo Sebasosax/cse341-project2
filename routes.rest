@@ -7,7 +7,7 @@
 GET {{local}}/players
 
 ### Get player by id (Messi)
-GET {{local}}/players/6ab5cdfdf6897a7d5d1d3708
+   GET {{local}}/players/6ab5cdfdf6897a7d5d1d3707
 
 ### Player not found (valid format, doesn't exist)
 GET {{local}}/players/6ab5cdfdf6897a7d5d1d3799
@@ -39,3 +39,23 @@ GET {{render}}/players
 
 ### Get player by id (Messi)
 GET {{render}}/players/6ab5cdfdf6897a7d5d1d3708
+
+### Update player (Di María - current club example)
+PUT {{local}}/players/6ab5cdfdf6897a7d5d1d3707
+Content-Type: application/json
+
+{
+  "firstName": "Ángel",
+  "lastName": "Di María",
+  "position": "Winger",
+  "jerseyNumber": 11,
+  "birthDate": "1988-02-14",
+  "birthPlace": "Rosario, Santa Fe",
+  "currentClub": "Rosario Central",
+  "internationalCaps": 145,
+  "internationalGoals": 31,
+  "worldCupWinner": true
+}
+
+### Delete player (replace with the id of Lautaro after creating him)
+DELETE {{local}}/players/6ab5d30914065ebb87538d68
