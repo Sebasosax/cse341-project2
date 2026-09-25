@@ -5,6 +5,15 @@ const COLLECTION = 'players';
 
 // GET /players
 const getAll = async (req, res) => {
+  /*
+    #swagger.tags = ['Players']
+    #swagger.summary = 'Get all players'
+    #swagger.responses[200] = {
+      description: 'List of players',
+      schema: [{ $ref: '#/definitions/Player' }]
+    }
+    #swagger.responses[500] = { description: 'Server error' }
+  */
   try {
     const players = await getDb().collection(COLLECTION).find().toArray();
     res.status(200).json(players);
@@ -15,6 +24,18 @@ const getAll = async (req, res) => {
 
 // GET /players/:id
 const getSingle = async (req, res) => {
+  /*
+    #swagger.tags = ['Players']
+    #swagger.summary = 'Get a player by id'
+    #swagger.parameters['id'] = { description: 'MongoDB ObjectId of the player' }
+    #swagger.responses[200] = {
+      description: 'Player found',
+      schema: { $ref: '#/definitions/Player' }
+    }
+    #swagger.responses[400] = { description: 'Invalid id format' }
+    #swagger.responses[404] = { description: 'Player not found' }
+    #swagger.responses[500] = { description: 'Server error' }
+  */
   try {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: 'Invalid player id format' });
@@ -34,6 +55,19 @@ const getSingle = async (req, res) => {
 
 // POST /players
 const createPlayer = async (req, res) => {
+  /*
+    #swagger.tags = ['Players']
+    #swagger.summary = 'Create a new player'
+    #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Player data',
+      required: true,
+      schema: { $ref: '#/definitions/Player' }
+    }
+    #swagger.responses[201] = { description: 'Player created' }
+    #swagger.responses[400] = { description: 'Validation error' }
+    #swagger.responses[500] = { description: 'Server error' }
+  */
   try {
     const player = {
       firstName: req.body.firstName,

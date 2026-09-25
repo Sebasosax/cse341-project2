@@ -1,14 +1,21 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const { initDb } = require('./db/connect');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Let Swagger use whatever host/protocol serves the docs (localhost or Render)
+delete swaggerDocument.host;
+delete swaggerDocument.schemes;
+
 app.use(cors());
 app.use(express.json());
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', require('./routes'));
 
 // 404 for unknown routes

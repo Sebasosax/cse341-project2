@@ -1,0 +1,168 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Argentine Football API",
+    "description": "REST API for managing Argentine football players and clubs. CSE 341 Project 2.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Players",
+      "description": "Argentine national team players"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/players/": {
+      "get": {
+        "tags": [
+          "Players"
+        ],
+        "summary": "Get all players",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "List of players",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Player"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Players"
+        ],
+        "summary": "Create a new player",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Player data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Player"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Player created"
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/players/{id}": {
+      "get": {
+        "tags": [
+          "Players"
+        ],
+        "summary": "Get a player by id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the player"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player found",
+            "schema": {
+              "$ref": "#/definitions/Player"
+            }
+          },
+          "400": {
+            "description": "Invalid id format"
+          },
+          "404": {
+            "description": "Player not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Player": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "Lionel"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Messi"
+        },
+        "position": {
+          "type": "string",
+          "example": "Forward"
+        },
+        "jerseyNumber": {
+          "type": "number",
+          "example": 10
+        },
+        "birthDate": {
+          "type": "string",
+          "example": "1987-06-24"
+        },
+        "birthPlace": {
+          "type": "string",
+          "example": "Rosario, Santa Fe"
+        },
+        "currentClub": {
+          "type": "string",
+          "example": "Inter Miami CF"
+        },
+        "internationalCaps": {
+          "type": "number",
+          "example": 190
+        },
+        "internationalGoals": {
+          "type": "number",
+          "example": 112
+        },
+        "worldCupWinner": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    }
+  }
+}
