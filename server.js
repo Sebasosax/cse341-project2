@@ -1,6 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const session = require('express-session');
+const { MongoStore } = require('connect-mongo');
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const { initDb } = require('./db/connect');
@@ -12,8 +16,56 @@ const port = process.env.PORT || 3000;
 delete swaggerDocument.host;
 delete swaggerDocument.schemes;
 
+// Render runs behind a proxy; needed so secure cookies work over HTTPS
+app.set('trust proxy', 1);
+
 app.use(cors());
 app.use(express.json());
+
+// Session configuration (stored in MongoDB so it survives Render restarts)
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+      dbName: process.env.DB_NAME,
+      collectionName: 'sessions'
+    }),
+    cookie: {
+      secure: 'auto',
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 // 1 day
+    }
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// GitHub OAuth strategy
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: process.env.CALLBACK_URL
+    },
+    (accessToken, refreshToken, profile, done) => {
+      // Later we will save/find the user in the "users" collection here
+      return done(null, profile);
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', require('./routes'));
