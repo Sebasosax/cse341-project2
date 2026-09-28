@@ -68,6 +68,8 @@ const createClub = async (req, res) => {
   /*
     #swagger.tags = ['Clubs']
     #swagger.summary = 'Create a new club'
+    #swagger.description = 'Requires login. Open /login in a new tab, authorize with GitHub, then try again.'
+    #swagger.security = [{ "githubSession": [] }]
     #swagger.parameters['body'] = {
       in: 'body',
       description: 'Club data',
@@ -76,6 +78,7 @@ const createClub = async (req, res) => {
     }
     #swagger.responses[201] = { description: 'Club created' }
     #swagger.responses[400] = { description: 'Validation error' }
+    #swagger.responses[401] = { description: 'Unauthorized - log in with GitHub at /login first' }
     #swagger.responses[500] = { description: 'Server error' }
   */
   try {
@@ -91,6 +94,8 @@ const updateClub = async (req, res) => {
   /*
     #swagger.tags = ['Clubs']
     #swagger.summary = 'Update an existing club'
+    #swagger.description = 'Requires login. Open /login in a new tab, authorize with GitHub, then try again.'
+    #swagger.security = [{ "githubSession": [] }]
     #swagger.parameters['id'] = { description: 'MongoDB ObjectId of the club' }
     #swagger.parameters['body'] = {
       in: 'body',
@@ -100,6 +105,7 @@ const updateClub = async (req, res) => {
     }
     #swagger.responses[200] = { description: 'Club updated' }
     #swagger.responses[400] = { description: 'Invalid id format or validation error' }
+    #swagger.responses[401] = { description: 'Unauthorized - log in with GitHub at /login first' }
     #swagger.responses[404] = { description: 'Club not found' }
     #swagger.responses[500] = { description: 'Server error' }
   */
@@ -125,9 +131,12 @@ const deleteClub = async (req, res) => {
   /*
     #swagger.tags = ['Clubs']
     #swagger.summary = 'Delete a club'
+    #swagger.description = 'Requires login. Open /login in a new tab, authorize with GitHub, then try again.'
+    #swagger.security = [{ "githubSession": [] }]
     #swagger.parameters['id'] = { description: 'MongoDB ObjectId of the club' }
     #swagger.responses[200] = { description: 'Club deleted' }
     #swagger.responses[400] = { description: 'Invalid id format' }
+    #swagger.responses[401] = { description: 'Unauthorized - log in with GitHub at /login first' }
     #swagger.responses[404] = { description: 'Club not found' }
     #swagger.responses[500] = { description: 'Server error' }
   */

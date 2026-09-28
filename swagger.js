@@ -4,10 +4,20 @@ const doc = {
   info: {
     title: 'Argentine Football API',
     description:
-      'REST API for managing Argentine football players (2022 World Cup champions) and their clubs. CSE 341 Project 2.',
+      'REST API for managing Argentine football players (2022 World Cup champions) and their clubs. CSE 341 Project 2.\n\nGET routes are public. POST, PUT and DELETE routes are protected with GitHub OAuth: open /login in a new tab, authorize with GitHub, then come back and use the protected routes. Open /logout to end the session.',
     version: '1.0.0'
   },
+  securityDefinitions: {
+    githubSession: {
+      type: 'apiKey',
+      in: 'header',
+      name: 'Cookie',
+      description:
+        'GitHub OAuth session. Open /login in a new browser tab and authorize with GitHub. The session cookie (connect.sid) is then sent automatically with every request, so nothing needs to be entered here.'
+    }
+  },
   tags: [
+    { name: 'Authentication', description: 'GitHub OAuth login and logout (open these URLs in the browser)' },
     { name: 'Players', description: 'Argentine national team players' },
     { name: 'Clubs', description: 'Clubs where the players currently play' }
   ],

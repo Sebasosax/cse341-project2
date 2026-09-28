@@ -10,7 +10,19 @@ router.get('/', (req, res) => {
 });
 
 // Start GitHub OAuth flow
-router.get('/login', passport.authenticate('github', { scope: ['user:email'] }));
+router.get(
+  '/login',
+  (req, res, next) => {
+    /*
+      #swagger.tags = ['Authentication']
+      #swagger.summary = 'Log in with GitHub'
+      #swagger.description = 'Redirects to GitHub to authorize the app. Open this URL directly in a new browser tab (Try it out cannot follow the GitHub redirect). On first login a user account is created in the users collection.'
+      #swagger.responses[302] = { description: 'Redirect to GitHub authorization page' }
+    */
+    next();
+  },
+  passport.authenticate('github', { scope: ['user:email'] })
+);
 
 // GitHub redirects here after the user authorizes the app
 router.get(
@@ -24,6 +36,12 @@ router.get(
 
 // End the session
 router.get('/logout', (req, res, next) => {
+  /*
+    #swagger.tags = ['Authentication']
+    #swagger.summary = 'Log out'
+    #swagger.description = 'Ends the session and redirects to the home page. Open this URL directly in the browser.'
+    #swagger.responses[302] = { description: 'Redirect to home page after logout' }
+  */
   req.logout((err) => {
     if (err) {
       return next(err);

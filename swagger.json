@@ -2,12 +2,16 @@
   "swagger": "2.0",
   "info": {
     "title": "Argentine Football API",
-    "description": "REST API for managing Argentine football players (2022 World Cup champions) and their clubs. CSE 341 Project 2.",
+    "description": "REST API for managing Argentine football players (2022 World Cup champions) and their clubs. CSE 341 Project 2.\n\nGET routes are public. POST, PUT and DELETE routes are protected with GitHub OAuth: open /login in a new tab, authorize with GitHub, then come back and use the protected routes. Open /logout to end the session.",
     "version": "1.0.0"
   },
   "host": "localhost:3000",
   "basePath": "/",
   "tags": [
+    {
+      "name": "Authentication",
+      "description": "GitHub OAuth login and logout (open these URLs in the browser)"
+    },
     {
       "name": "Players",
       "description": "Argentine national team players"
@@ -20,13 +24,39 @@
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "githubSession": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Cookie",
+      "description": "GitHub OAuth session. Open /login in a new browser tab and authorize with GitHub. The session cookie (connect.sid) is then sent automatically with every request, so nothing needs to be entered here."
+    }
+  },
   "paths": {
-    "/": {
+    "/login": {
       "get": {
-        "description": "",
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Log in with GitHub",
+        "description": "Redirects to GitHub to authorize the app. Open this URL directly in a new browser tab (Try it out cannot follow the GitHub redirect). On first login a user account is created in the users collection.",
         "responses": {
-          "200": {
-            "description": "OK"
+          "302": {
+            "description": "Redirect to GitHub authorization page"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Log out",
+        "description": "Ends the session and redirects to the home page. Open this URL directly in the browser.",
+        "responses": {
+          "302": {
+            "description": "Redirect to home page after logout"
           }
         }
       }
@@ -61,7 +91,7 @@
           "Players"
         ],
         "summary": "Create a new player",
-        "description": "",
+        "description": "Requires login. Open /login in a new tab, authorize with GitHub, then try again.",
         "parameters": [
           {
             "name": "body",
@@ -80,10 +110,18 @@
           "400": {
             "description": "Validation error"
           },
+          "401": {
+            "description": "Unauthorized - log in with GitHub at /login first"
+          },
           "500": {
             "description": "Server error"
           }
-        }
+        },
+        "security": [
+          {
+            "githubSession": []
+          }
+        ]
       }
     },
     "/players/{id}": {
@@ -125,7 +163,7 @@
           "Players"
         ],
         "summary": "Update an existing player",
-        "description": "",
+        "description": "Requires login. Open /login in a new tab, authorize with GitHub, then try again.",
         "parameters": [
           {
             "name": "id",
@@ -151,20 +189,28 @@
           "400": {
             "description": "Invalid id format or validation error"
           },
+          "401": {
+            "description": "Unauthorized - log in with GitHub at /login first"
+          },
           "404": {
             "description": "Player not found"
           },
           "500": {
             "description": "Server error"
           }
-        }
+        },
+        "security": [
+          {
+            "githubSession": []
+          }
+        ]
       },
       "delete": {
         "tags": [
           "Players"
         ],
         "summary": "Delete a player",
-        "description": "",
+        "description": "Requires login. Open /login in a new tab, authorize with GitHub, then try again.",
         "parameters": [
           {
             "name": "id",
@@ -181,13 +227,21 @@
           "400": {
             "description": "Invalid id format"
           },
+          "401": {
+            "description": "Unauthorized - log in with GitHub at /login first"
+          },
           "404": {
             "description": "Player not found"
           },
           "500": {
             "description": "Server error"
           }
-        }
+        },
+        "security": [
+          {
+            "githubSession": []
+          }
+        ]
       }
     },
     "/clubs/": {
@@ -220,7 +274,7 @@
           "Clubs"
         ],
         "summary": "Create a new club",
-        "description": "",
+        "description": "Requires login. Open /login in a new tab, authorize with GitHub, then try again.",
         "parameters": [
           {
             "name": "body",
@@ -239,10 +293,18 @@
           "400": {
             "description": "Validation error"
           },
+          "401": {
+            "description": "Unauthorized - log in with GitHub at /login first"
+          },
           "500": {
             "description": "Server error"
           }
-        }
+        },
+        "security": [
+          {
+            "githubSession": []
+          }
+        ]
       }
     },
     "/clubs/{id}": {
@@ -284,7 +346,7 @@
           "Clubs"
         ],
         "summary": "Update an existing club",
-        "description": "",
+        "description": "Requires login. Open /login in a new tab, authorize with GitHub, then try again.",
         "parameters": [
           {
             "name": "id",
@@ -310,20 +372,28 @@
           "400": {
             "description": "Invalid id format or validation error"
           },
+          "401": {
+            "description": "Unauthorized - log in with GitHub at /login first"
+          },
           "404": {
             "description": "Club not found"
           },
           "500": {
             "description": "Server error"
           }
-        }
+        },
+        "security": [
+          {
+            "githubSession": []
+          }
+        ]
       },
       "delete": {
         "tags": [
           "Clubs"
         ],
         "summary": "Delete a club",
-        "description": "",
+        "description": "Requires login. Open /login in a new tab, authorize with GitHub, then try again.",
         "parameters": [
           {
             "name": "id",
@@ -340,13 +410,21 @@
           "400": {
             "description": "Invalid id format"
           },
+          "401": {
+            "description": "Unauthorized - log in with GitHub at /login first"
+          },
           "404": {
             "description": "Club not found"
           },
           "500": {
             "description": "Server error"
           }
-        }
+        },
+        "security": [
+          {
+            "githubSession": []
+          }
+        ]
       }
     }
   },

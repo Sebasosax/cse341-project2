@@ -72,6 +72,8 @@ const createPlayer = async (req, res) => {
   /*
     #swagger.tags = ['Players']
     #swagger.summary = 'Create a new player'
+    #swagger.description = 'Requires login. Open /login in a new tab, authorize with GitHub, then try again.'
+    #swagger.security = [{ "githubSession": [] }]
     #swagger.parameters['body'] = {
       in: 'body',
       description: 'Player data',
@@ -80,6 +82,7 @@ const createPlayer = async (req, res) => {
     }
     #swagger.responses[201] = { description: 'Player created' }
     #swagger.responses[400] = { description: 'Validation error' }
+    #swagger.responses[401] = { description: 'Unauthorized - log in with GitHub at /login first' }
     #swagger.responses[500] = { description: 'Server error' }
   */
   try {
@@ -95,6 +98,8 @@ const updatePlayer = async (req, res) => {
   /*
     #swagger.tags = ['Players']
     #swagger.summary = 'Update an existing player'
+    #swagger.description = 'Requires login. Open /login in a new tab, authorize with GitHub, then try again.'
+    #swagger.security = [{ "githubSession": [] }]
     #swagger.parameters['id'] = { description: 'MongoDB ObjectId of the player' }
     #swagger.parameters['body'] = {
       in: 'body',
@@ -104,6 +109,7 @@ const updatePlayer = async (req, res) => {
     }
     #swagger.responses[200] = { description: 'Player updated' }
     #swagger.responses[400] = { description: 'Invalid id format or validation error' }
+    #swagger.responses[401] = { description: 'Unauthorized - log in with GitHub at /login first' }
     #swagger.responses[404] = { description: 'Player not found' }
     #swagger.responses[500] = { description: 'Server error' }
   */
@@ -129,9 +135,12 @@ const deletePlayer = async (req, res) => {
   /*
     #swagger.tags = ['Players']
     #swagger.summary = 'Delete a player'
+    #swagger.description = 'Requires login. Open /login in a new tab, authorize with GitHub, then try again.'
+    #swagger.security = [{ "githubSession": [] }]
     #swagger.parameters['id'] = { description: 'MongoDB ObjectId of the player' }
     #swagger.responses[200] = { description: 'Player deleted' }
     #swagger.responses[400] = { description: 'Invalid id format' }
+    #swagger.responses[401] = { description: 'Unauthorized - log in with GitHub at /login first' }
     #swagger.responses[404] = { description: 'Player not found' }
     #swagger.responses[500] = { description: 'Server error' }
   */
