@@ -7,7 +7,7 @@ const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-const { initDb } = require('./db/connect');
+const { initDb, getDb } = require('./db/connect');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -44,7 +44,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// GitHub OAuth strategy
+// GitHub OAuth strategy: creates the user account on first login
 passport.use(
   new GitHubStrategy(
     {
@@ -52,9 +52,38 @@ passport.use(
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: process.env.CALLBACK_URL
     },
-    (accessToken, refreshToken, profile, done) => {
-      // Later we will save/find the user in the "users" collection here
-      return done(null, profile);
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const now = new Date();
+        const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+        const avatarUrl = profile.photos && profile.photos.length > 0 ? profile.photos[0].value : null;
+
+        await getDb()
+          .collection('users')
+          .updateOne(
+            { githubId: profile.id },
+            {
+              $set: {
+                username: profile.username,
+                displayName: profile.displayName || profile.username,
+                email,
+                avatarUrl,
+                profileUrl: profile.profileUrl,
+                lastLogin: now
+              },
+              $setOnInsert: {
+                githubId: profile.id,
+                createdAt: now
+              }
+            },
+            { upsert: true }
+          );
+
+        console.log(`User logged in: ${profile.username}`);
+        return done(null, profile);
+      } catch (err) {
+        return done(err);
+      }
     }
   )
 );
